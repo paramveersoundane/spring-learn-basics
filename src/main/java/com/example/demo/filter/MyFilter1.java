@@ -21,8 +21,8 @@ public class MyFilter1 implements Filter {
 	public void doFilter(ServletRequest servletrequest, ServletResponse servletresponse, FilterChain filterchain)
             throws IOException, ServletException{
 		System.out.println("MyFilter1: inside doFilter logic. ");
-		
-		System.out.println("Print parameter: "+ servletrequest.getParameter("location"));
+		// WIP
+		System.out.println("Print parameter: "+ servletrequest.getLocalAddr());
 		filterchain.doFilter(servletrequest, servletresponse);
 		System.out.println("work on request: "+ servletresponse);
 		System.out.println("MyFilter1 completed ");

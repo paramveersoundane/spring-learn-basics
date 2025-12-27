@@ -17,6 +17,18 @@ public class BookDonation {
  private String donor;
  private LocalDate donationDate;
  private String userid;
+ 
+ @OneToOne 
+ @JoinColumn(name = "book_id", referencedColumnName = "id")
+ // foreign key column 
+ private Book book;
+ 
+ public Book getBook() {
+	return book;
+}
+ public void setBook(Book book) {
+	this.book = book;
+ }
  public Long getId() {
 	return id;
  }

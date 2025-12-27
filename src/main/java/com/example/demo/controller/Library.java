@@ -13,16 +13,30 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.BookDonationDTO;
+import com.example.demo.dto.BorrowRequest;
+import com.example.demo.dto.BorrowResponse;
 import com.example.demo.entity.BookDonation;
 import com.example.demo.repository.BookDonationRepository;
+import com.example.demo.service.BookDonationService;
+import com.example.demo.service.BorrowService;
 import com.example.demo.dto.ReturnBookRequest;
 import com.example.demo.dto.ReturnBookResponse;
 
 @RestController
 @RequestMapping(value = "/api/")
-public class Library {
 
-    private final BookController bookController;
+///api/users/register	POST	Register new user
+///api/books	GET	List all books
+///api/books/{id}	GET	Get book details
+///api/books/borrow	POST	Borrow a book
+///api/books/return	POST	Return a book
+///api/books/donate	POST	Donate a book
+///api/reports/mostBorrowed	GET	Get most borrowed books
+public class Library {
+	@Autowired
+	private BorrowService borrowService;
+	@Autowired
+	private BookController bookController;
 
 	public Library(BookController bookController) {
 		System.out.println("Library loaded!");
@@ -30,45 +44,40 @@ public class Library {
 		// TODO Auto-generated constructor stub
 	}
 
+	@GetMapping(path = "/books")
+	public String getLibName(@RequestParam(name = "id") String id) {
 
-	@GetMapping(path = "/fetchLib")
-	public String getLibName(@RequestParam(name="location") String location) {
-
-		return "Library location : " + location;
+		return "Library Book info : " + id;
 
 	}
 
-	@PostMapping(path = "/returnBook")
-	public ResponseEntity<ReturnBookResponse> returnBook(@RequestBody ReturnBookRequest request) {
+	@PostMapping(path = "books/borrow")
+	public ResponseEntity<BorrowResponse> requestBook(@RequestBody BorrowRequest request) {
+		System.out.println("Borrowing book ...");
+
+		BorrowResponse response = this.borrowService.borrowBook(request);
+		return new ResponseEntity<>(response, HttpStatus.OK);
+
+	}
+
+	@PostMapping(path = "books/return")
+	public ResponseEntity<BorrowResponse> returnBook(@RequestBody ReturnBookRequest request) {
 		System.out.println("Book return API triggered!");
-		System.out.println( "Book request: "+ request);
-		ReturnBookResponse response = new ReturnBookResponse(request.getId(), request.getTitle(), request.getUserId(),
-				request.getReturnDate(), "Book returned successfully");
+		System.out.println("Book request: " + request);
+		BorrowResponse response = borrowService.returnBook(request);
 		System.out.println("Response:" + response);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 
 	}
-	
-	
 
-	    @Autowired
-	    private BookDonationRepository repository;
+	@Autowired
+	private BookDonationService donationservice;
 
-	    @PostMapping(path = "/donateBook")
-	    public BookDonation donateBook(@RequestBody BookDonationDTO dto) {
-	        BookDonation donation = new BookDonation();
-	        donation.setTitle(dto.getTitle());
-	        donation.setAuthor(dto.getAuthor());
-	        donation.setDonor(dto.getDonor());
-	        donation.setUserid(dto.getUserid());
-	        // Convert String to LocalDate if needed
-	        if (dto.getDonationDate() != null) {
-	            donation.setDonationDate(LocalDate.parse(dto.getDonationDate()));
-	        }
+	@PostMapping(path = "/donateBook")
+	public BookDonation donateBook(@RequestBody BookDonationDTO dto) {
+		BookDonation donation = donationservice.donate(dto);
 
-	        return repository.save(donation); // inserts into DB
-	    }
-	
-
+		return donation; // inserts into DB
+	}
 
 }

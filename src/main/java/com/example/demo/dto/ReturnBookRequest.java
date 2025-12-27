@@ -2,7 +2,7 @@ package com.example.demo.dto;
 
 
 public  class ReturnBookRequest {
-	private String id;
+	private Long id;
 	private String title;
 	private String userId;
 	private String returnDate;
@@ -16,11 +16,11 @@ public  class ReturnBookRequest {
 	            '}';
 	}
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
