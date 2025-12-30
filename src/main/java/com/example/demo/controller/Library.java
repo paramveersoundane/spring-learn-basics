@@ -39,7 +39,7 @@ public class Library {
 	private BookController bookController;
 
 	public Library(BookController bookController) {
-		System.out.println("Library loaded!");
+		System.out.println("Library loaded! " + this.hashCode());
 		this.bookController = bookController;
 		// TODO Auto-generated constructor stub
 	}
