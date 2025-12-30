@@ -5,16 +5,20 @@ import org.springframework.stereotype.Component;
 import com.example.demo.entity.Book;
 @Component
 public class BookController {
-	
+	Long  creationTime;
+	String title;
+	public BookController(String title) {
+		this.creationTime =System.currentTimeMillis() ;
+		this.title = title;
+		System.out.println("Creation time: "+ this.creationTime + ", BookController object creation from the paramterized contructor! " + this.hashCode());
+		
+	}
 
 	public BookController() {
-		System.out.println("Test ");
+		
+		this.creationTime =System.currentTimeMillis() ;
+		System.out.println("Creation time: "+ this.creationTime + ", BookController object creation from the default contructor! " + this.hashCode());
 	}
-//	
-//	public List<Book> getAllBooks() {
-//		System.out.println("Book controller");
-//		return Arrays.asList(
-//				new Book(1l, "Mastering Spring 5.2", "Ranga Karanam"));
-//	}
+
 	
 }
