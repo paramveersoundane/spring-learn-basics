@@ -1,12 +1,14 @@
 package com.example.demo.component;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import jakarta.annotation.PostConstruct;
 
 public class Example3Component {
 
 	@Autowired
+	@Qualifier("example2component_a")
 	Example2Component example2Component;
 	
 	Long creationTime;

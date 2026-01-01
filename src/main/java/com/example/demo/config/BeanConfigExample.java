@@ -1,5 +1,6 @@
 package com.example.demo.config;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -23,11 +24,13 @@ public class BeanConfigExample {
 	}
 	
 	@Bean
+	@Qualifier("example2component_a")
 	public Example2Component createExample2Component() {
 		System.out.println("In Configuration creating Bean: Example2Component");
 		return new Example2Component("Information-1");
 	}
 	@Bean
+	@Qualifier("example2component_b")
 	public Example2Component createExample2Component1() {
 		System.out.println("In Configuration creating Bean: Example2Component 1");
 		return new Example2Component("Information-1");
